@@ -185,7 +185,7 @@ export default async function Home() {
               <article className="landing-card result-panel">
                 <div className="result-main">
                   <Image
-                    src="/images/placeholder/fertilizer3.png"
+                    src="/images/fertilizer.png"
                     alt="비료 포대 이미지"
                     width={150}
                     height={150}
