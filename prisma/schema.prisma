@@ -1,0 +1,198 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../services/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               Int              @id @default(autoincrement())
+  name             String
+  phone            String
+  email            String           @unique
+  passwordHash     String           @default("")
+  memberType       String           @default("User")
+  subscriptionTier String
+  createdAt        DateTime         @default(now())
+  farms            Farm[]
+  orders           Order[]
+  reviews          Review[]
+  recommendations  Recommendation[]
+}
+
+model Farm {
+  id                 Int      @id @default(autoincrement())
+  ownerId            Int
+  addressId          Int?
+  name               String
+  crops              String
+  soilType           String
+  soilPh             Float?
+  organicMatterLevel String?
+  soilSource         String
+  areaSquareMeter    Int
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  owner              User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id              Int              @id @default(autoincrement())
+  name            String
+  description     String
+  price           Int
+  weight          String
+  rating          Float            @default(0)
+  badge           String?
+  nRatio          Float
+  pRatio          Float
+  kRatio          Float
+  crop            String
+  soil            String
+  stockQuantity   Int              @default(100)
+  imageUrl        String?
+  infoSummary     String           @default("")
+  infoSpecs       String           @default("[]")
+  effects         String           @default("[]")
+  recommendedCrops String          @default("[]")
+  ingredients     String           @default("[]")
+  purchaseOptions String           @default("[]")
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  reviews         Review[]
+  orders          Order[]
+  recommendations Recommendation[]
+}
+
+model Recommendation {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  productId Int?
+  title     String
+  crop      String
+  npk       String
+  blend     String
+  saved     Boolean  @default(true)
+  savedAt   DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+}
+
+model Order {
+  id           String    @id
+  userId       Int?
+  productId    Int
+  productName  String    @default("")
+  productSummary String  @default("")
+  unitLabel    String    @default("")
+  orderedAt    DateTime  @default(now())
+  amount       Int
+  status       String
+  expectedDate DateTime
+  deliveryRecipient String @default("")
+  deliveryAddress String   @default("")
+  deliveryCourier String   @default("")
+  trackingNumber String    @default("")
+  timeline     String      @default("[]")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  product      Product   @relation(fields: [productId], references: [id], onDelete: Restrict)
+  payments     Payment[]
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  orderId   String
+  date      String
+  method    String
+  amount    String
+  status    String
+  createdAt DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  productId Int?
+  name      String
+  rating    Int
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+}
+
+model RoadAddress {
+  id           Int     @id @default(autoincrement())
+  roadAddress  String  @unique
+  jibunAddress String
+  zipCode      String
+  bcode        String
+  sido         String
+  sigungu      String
+  lat          Float
+  lng          Float
+}
+
+model LegalDongAddress {
+  id             Int        @id @default(autoincrement())
+  bcode          String     @unique
+  sido           String
+  sigungu        String
+  legalDongName  String
+}
+
+model SoilData {
+  id                        Int      @id @default(autoincrement())
+  legalDongAddressId        Int
+  source                    String
+  soilType                  String
+  ph                        Float
+  organicMatterValue        Float
+  organicMatterUnit         String
+  organicMatterLevel        String
+  availablePhosphateValue   Float
+  availablePhosphateUnit    String
+  potassiumValue            Float
+  potassiumUnit             String
+  calciumValue              Float
+  calciumUnit               String
+  magnesiumValue            Float
+  magnesiumUnit             String
+  fetchedAt                 DateTime @default(now())
+
+  @@unique([legalDongAddressId])
+}
+
+model CropCode {
+  id                 Int     @id @default(autoincrement())
+  code               String  @unique
+  name               String
+  category           String?
+  frtlzrUseApiCropId String?
+}
+
+model SoilType {
+  id   Int     @id @default(autoincrement())
+  code String  @unique
+  name String
+  ph   Float?
+}
+
+model ProductCategory {
+  id   Int    @id @default(autoincrement())
+  code String @unique
+  name String
+}

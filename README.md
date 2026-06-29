@@ -30,7 +30,7 @@ npm run dev
 - 공통 Header/Footer와 Next.js Link 기반 페이지 이동
 - 모바일 메뉴 접힘 구조
 - 재사용 컴포넌트: Header, Footer, HeroSection, FeatureCard, ProcessStep, ProductCard, ReviewCard, DashboardCard, RecommendationResult, FAQAccordion
-- 분리된 더미 데이터: `data/products.ts`, `data/reviews.ts`, `data/orders.ts`, `data/recommendations.ts`
+- Next.js Route Handler 기반 mock 백엔드: `app/api/v1/*`, `lib/backend/*`
 - AI 추천 페이지 버튼 클릭 시 추천 결과 강조
 - FAQ 아코디언 열기/닫기
 - 상품 담기 버튼 클릭 시 알림 표시

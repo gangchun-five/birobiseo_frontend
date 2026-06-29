@@ -1,0 +1,9 @@
+node_modules
+.next
+.env
+package-lock.json
+tsconfig.tsbuildinfo
+
+/services/generated/prisma
+prisma/dev.db
+prisma/dev.db-journal

@@ -1,30 +1,42 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-[#173f22] py-12 text-white">
-      <div className="container-shell grid gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <footer className="site-footer" id="contact">
+      <div className="container-shell footer-grid">
         <div>
-          <div className="mb-3 text-2xl font-black">비료비서</div>
-          <p className="max-w-sm text-sm leading-7 text-white/72">곤충 부산물 기반 맞춤 비료 추천부터 주문, 배송, 리뷰까지 농가의 비료 선택을 도와주는 AI 비서입니다.</p>
+          <Link href="/" className="brand-lockup footer-brand" aria-label="비료비서 홈으로 이동">
+            <Image
+              src="/images/logo.png"
+              alt="logo"
+              width={44}
+              height={44}
+              priority
+            />
+            <span>비료비서</span>
+          </Link>
+          <p>곤충 부산물 기반 AI 맞춤 비료 추천 서비스</p>
         </div>
         <div>
-          <h3 className="mb-3 font-black">고객센터</h3>
-          <p className="text-sm text-white/72">1588-2026</p>
-          <p className="text-sm text-white/72">평일 09:00-18:00</p>
+          <h3>고객센터</h3>
+          <p>070-1234-5678</p>
+          <p>support@birobiseo.com</p>
+          <p>평일 09:00 - 18:00</p>
         </div>
         <div>
-          <h3 className="mb-3 font-black">이용 안내</h3>
-          <Link href="/recommend" className="block text-sm text-white/72">AI 추천 받기</Link>
-          <Link href="/market" className="block text-sm text-white/72">비료마켓</Link>
-          <Link href="/mypage" className="block text-sm text-white/72">마이페이지</Link>
+          <h3>이용 안내</h3>
+          <Link href="/#how">이용 가이드</Link>
+          <Link href="/recommend">AI 추천 받기</Link>
+          <Link href="/market">비료마켓</Link>
         </div>
         <div>
-          <h3 className="mb-3 font-black">회사 정보</h3>
-          <p className="text-sm text-white/72">비료비서 주식회사</p>
-          <p className="mt-3 text-sm text-white/72">블로그 · 카카오 · 유튜브</p>
+          <h3>법적 고지</h3>
+          <Link href="/">개인정보처리방침</Link>
+          <Link href="/">서비스 이용약관</Link>
         </div>
       </div>
+      <p className="copyright">© 2024 비료비서. All rights reserved.</p>
     </footer>
   );
 }
